@@ -2,6 +2,7 @@ import json
 
 import picamera
 import subprocess
+import time
 
 from core.bot import Bot
 
@@ -39,5 +40,6 @@ class CamPi(Bot):
 
     def capture(self):
         subprocess.Popen(["/usr/bin/omxplayer", "data/camera_capture_sound.mp3"])
-        self.camera.capture("image.jpg")
-        self.client.slacker.files.upload("image.jpg", filename="image.jpg", channels=self.channel_name)
+        time.sleep(0.5)
+        self.camera.capture("/tmp/image.jpg")
+        self.client.slacker.files.upload("/tmp/image.jpg", filename="campi-india.jpg", channels=self.channel_name)
