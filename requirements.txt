@@ -1,0 +1,4 @@
+slackclient==1.0.4
+slacker==0.9.30
+slacksocket==0.7
+picamera
