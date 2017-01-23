@@ -1,5 +1,6 @@
 from core.commands import Command
 from slack.client import Client
+import signal
 
 
 class Bot(object):
@@ -7,6 +8,16 @@ class Bot(object):
         self.client = Client(filters=stream_filters)
         self.commands = []
         self.channel_name = channel_name
+        signal.signal(signal.SIGABRT, self.shutdown)
+        signal.signal(signal.SIGINT, self.shutdown)
+        signal.signal(signal.SIGTERM, self.shutdown)
+        self.startup()
+
+    def startup(self):
+        self.say("Hello Lumi! I'm here to serve")
+
+    def shutdown(self):
+        self.say("Goodbye folks!")
 
     def usage(self):
         raise NotImplementedError()
@@ -22,6 +33,7 @@ class Bot(object):
 
     def say(self, message):
         response = self.client.send(message, channel=self.channel_name)
+        return response
 
     def run(self):
         self.client.run(self.parser)
