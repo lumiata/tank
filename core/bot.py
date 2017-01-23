@@ -1,6 +1,7 @@
 from core.commands import Command
 from slack.client import Client
 import signal
+import sys
 
 
 class Bot(object):
@@ -16,8 +17,9 @@ class Bot(object):
     def startup(self):
         self.say("Hello Lumi! I'm here to serve")
 
-    def shutdown(self):
+    def shutdown(self, signum, frame):
         self.say("Goodbye folks!")
+        sys.exit(0)
 
     def usage(self):
         raise NotImplementedError()
